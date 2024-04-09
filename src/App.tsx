@@ -1,6 +1,13 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "react-query/devtools";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400&display=swap');
@@ -66,9 +73,12 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   return (
     <>
-      <GlobalStyle />
-      <Router />
-      {/* <ReactQueryDevtools initialIsOpen={true} /> */}
+      <RecoilRoot>
+
+        <GlobalStyle />
+        <Router />
+        {/* <ReactQueryDevtools initialIsOpen={true} /> */}
+      </RecoilRoot>
     </>
   );
 }

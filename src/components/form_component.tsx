@@ -18,12 +18,11 @@ interface IForm {
   name: string;
 }
 
-function FormPractice() {
+export default function FormProvider() {
   const {
     register,
     handleSubmit,
     setValue,
-    formState,
     formState: { errors },
   } = useForm<IForm>();
 
