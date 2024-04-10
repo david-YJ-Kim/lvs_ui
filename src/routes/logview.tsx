@@ -14,7 +14,7 @@ const Header = styled.div<{ bgcolor: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 15vh;
+  /* height: 15vh;  → 위와 같이 높이 제한 시, 내부 element가 삐져나옴*/
   background-color: ${(props) => props.bgcolor};
 `;
 

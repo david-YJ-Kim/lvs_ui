@@ -1,21 +1,25 @@
 import styled from "styled-components";
 import SimpleInput from "./simple_input";
-import { toolcodeListState, toolcodeValueSate } from "../RecoilState";
-import { useRecoilState } from "recoil";
+import {
+  toolcodeListStartWithSelector,
+  toolcodeListState,
+  toolcodeValueSate,
+} from "../RecoilState";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const Container = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin: 30px 30px;
 `;
 const SearchForm = styled.div`
   width: 30vh;
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
 `;
-const SearchInputSpan = styled.span`
+const BasicSpan = styled.span`
   font-size: 10px;
 `;
 const ViewResult = styled.div`
@@ -27,18 +31,20 @@ const ViewResult = styled.div`
 `;
 const ToolCodeBox = styled.button<{ bgcolor: string }>`
   width: 25vh;
-  border-radius: 1px;
-  border:1px solid  black;
-  padding: 5px 5px;
-  margin: 10px 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 0px 5px;
+  margin: 10px 0px;
+  margin-right: 10px;
   background-color: ${(props) => props.bgcolor};
   cursor: pointer;
 `;
 
-
 export default function SearchPanel() {
   const [toolcodeState, setToolcodeState] = useRecoilState(toolcodeValueSate);
-  const [toolcodeList, setToolCodeList] = useRecoilState(toolcodeListState);
+  // const [toolcodeList, setToolCodeList] = useRecoilState(toolcodeListState);
+  // → use selector for search list
+  const toolcodeList = useRecoilValue(toolcodeListStartWithSelector);
 
   // Click event handler for ToolCodeBox
   const handleToolCodeBoxClick = (selectedToolCode: string) => {
@@ -48,15 +54,24 @@ export default function SearchPanel() {
   return (
     <Container>
       <SearchForm>
-        <SearchInputSpan>search eqp id</SearchInputSpan>
+        <BasicSpan>search eqp id</BasicSpan>
         <SimpleInput />
       </SearchForm>
       <ViewResult>
         {/* #dfe6e9 */}
         {toolcodeList.map((crnToolCode, index) => (
-          <ToolCodeBox bgcolor={(toolcodeState.toolcode === crnToolCode) ? "#00b894" : "#dfe6e9"} key={index} onClick={() => handleToolCodeBoxClick(crnToolCode)}> {crnToolCode}</ToolCodeBox>
+          <ToolCodeBox
+            bgcolor={
+              toolcodeState.toolcode === crnToolCode ? "#00b894" : "#dfe6e9"
+            }
+            key={index}
+            onClick={() => handleToolCodeBoxClick(crnToolCode)}
+          >
+            {" "}
+            <BasicSpan>{crnToolCode}</BasicSpan>
+          </ToolCodeBox>
         ))}
       </ViewResult>
-    </Container >
+    </Container>
   );
 }
