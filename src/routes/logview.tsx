@@ -8,14 +8,14 @@ const Container = styled.div`
   grid-template-rows: repeat(2, 1fr);
 `;
 
-const Header = styled.div<{ bgColor: string }>`
+const Header = styled.div<{ bgcolor: string }>`
   grid-column-start: 1;
   grid-column-end: 3;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 15vh;
-  background-color: ${(props) => props.bgColor};
+  background-color: ${(props) => props.bgcolor};
 `;
 
 const Body = styled.div`
@@ -27,7 +27,7 @@ const Navi = styled(Body)``;
 export default function LogView() {
   return (
     <Container>
-      <Header bgColor="#dfe6e9">
+      <Header bgcolor="#dfe6e9">
         <SearchPanel />
       </Header>
       <Content></Content>

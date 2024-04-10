@@ -77,8 +77,8 @@ function App() {
 
         <GlobalStyle />
         <Router />
-        {/* <ReactQueryDevtools initialIsOpen={true} /> */}
       </RecoilRoot>
+      {/* <ReactQueryDevtools initialIsOpen={true} /> */}
     </>
   );
 }

@@ -8,28 +8,28 @@ const Container = styled.div`
   grid-template-rows: repeat(2, 1fr);
 `;
 
-const MenuBox = styled.div<{ bgColor: string }>`
+const MenuBox = styled.div<{ bgcolor: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => props.bgColor};
+  background-color: ${(props) => props.bgcolor};
 `;
 
 export default function Home() {
   return (
     <Container>
-      <MenuBox bgColor="#74b9ff"></MenuBox>
-      <MenuBox bgColor="#0984e3">
+      <MenuBox bgcolor="#74b9ff"></MenuBox>
+      <MenuBox bgcolor="#0984e3">
         <Link to="/logview">
           <button>Log view page</button>
         </Link>
       </MenuBox>
-      <MenuBox bgColor="#00b894">
+      <MenuBox bgcolor="#00b894">
         <Link to="/actionpage">
           <button>Action Page</button>
         </Link>
       </MenuBox>
-      <MenuBox bgColor="#55efc4"></MenuBox>
+      <MenuBox bgcolor="#55efc4"></MenuBox>
     </Container>
   );
 }
