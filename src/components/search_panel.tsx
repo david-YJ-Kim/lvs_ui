@@ -6,12 +6,14 @@ import {
   toolcodeValueSate,
 } from "../RecoilState";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { KeyboardEvent } from "react";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin: 30px 30px;
+  width: 100%;
 `;
 const SearchForm = styled.div`
   width: 30vh;
@@ -20,17 +22,23 @@ const SearchForm = styled.div`
   align-items: flex-start;
 `;
 const BasicSpan = styled.span`
-  font-size: 10px;
+  font-size: 20px;
 `;
 const ViewResult = styled.div`
   display: flex;
   align-items: flex-start;
-  width: 80vw;
+  /* width: 80vw; */
+  width: 100%;
   overflow-y: auto; /* Add scroll if content exceeds height */
   max-height: 60vh; /* Limit maximum height to 60% of viewport height */
 `;
-const ToolCodeBox = styled.button<{ bgcolor: string }>`
-  width: 25vh;
+
+const ToolBox = styled.div`
+  width: 100px;
+  height: 50px;
+`;
+
+const ToolBtn = styled.button<{ bgcolor: string }>`
   border-radius: 10px;
   border: 1px solid black;
   padding: 0px 5px;
@@ -44,12 +52,15 @@ export default function SearchPanel() {
   const [toolcodeState, setToolcodeState] = useRecoilState(toolcodeValueSate);
   // const [toolcodeList, setToolCodeList] = useRecoilState(toolcodeListState);
   // → use selector for search list
-  const toolcodeList = useRecoilValue(toolcodeListStartWithSelector);
+  const toolcodeList = useRecoilValue(toolcodeListStartWithSelector(toolcodeState.toolcode));
 
-  // Click event handler for ToolCodeBox
-  const handleToolCodeBoxClick = (selectedToolCode: string) => {
-    setToolcodeState({ toolcode: selectedToolCode });
+  // Click event handler for ToolBtn
+  // is already clicked then make it null
+  const handleToolBtnClick = (selectedToolCode: string) => {
+    (selectedToolCode === toolcodeState.toolcode) ? setToolcodeState({ toolcode: '' }) : setToolcodeState({ toolcode: selectedToolCode });
   };
+
+
 
   return (
     <Container>
@@ -58,20 +69,21 @@ export default function SearchPanel() {
         <SimpleInput />
       </SearchForm>
       <ViewResult>
-        {/* #dfe6e9 */}
         {toolcodeList.map((crnToolCode, index) => (
-          <ToolCodeBox
-            bgcolor={
-              toolcodeState.toolcode === crnToolCode ? "#00b894" : "#dfe6e9"
-            }
-            key={index}
-            onClick={() => handleToolCodeBoxClick(crnToolCode)}
-          >
-            {" "}
-            <BasicSpan>{crnToolCode}</BasicSpan>
-          </ToolCodeBox>
+
+          <ToolBox>
+            <ToolBtn
+              bgcolor={
+                toolcodeState.toolcode === crnToolCode ? "#00b894" : "#dfe6e9"
+              }
+              key={index}
+              onClick={() => handleToolBtnClick(crnToolCode)}
+            >
+              <BasicSpan>{crnToolCode}</BasicSpan>
+            </ToolBtn>
+          </ToolBox>
         ))}
       </ViewResult>
-    </Container>
+    </Container >
   );
 }

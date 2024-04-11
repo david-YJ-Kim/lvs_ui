@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
 import { toolcodeValueSate } from "../RecoilState";
-import { ChangeEvent, KeyboardEvent } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect } from "react";
 import styled from "styled-components";
 
 
@@ -17,15 +17,22 @@ export default function SimpleInput() {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
         setToolCodeValue({ toolcode: newValue });
-        console.log(toolCodeValue)
     };
 
 
+
+    /**
+     * Handel keyboard push event.
+     * @param e 
+     */
     const handleEnterKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
         // e.preventDefault();
-        console.log(e.key);
         if (e.key === 'Enter') {
             alert('Confirmation message'); // Show confirmation message
+        }
+
+        if (e.key === "Escape") {
+            setToolCodeValue({ toolcode: '' });
         }
     };
 
