@@ -13,7 +13,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin: 30px 30px;
-  width: 100%;
+  width: 90%;
 `;
 const SearchForm = styled.div`
   width: 30vh;
@@ -52,15 +52,17 @@ export default function SearchPanel() {
   const [toolcodeState, setToolcodeState] = useRecoilState(toolcodeValueSate);
   // const [toolcodeList, setToolCodeList] = useRecoilState(toolcodeListState);
   // → use selector for search list
-  const toolcodeList = useRecoilValue(toolcodeListStartWithSelector(toolcodeState.toolcode));
+  const toolcodeList = useRecoilValue(
+    toolcodeListStartWithSelector(toolcodeState.toolcode)
+  );
 
   // Click event handler for ToolBtn
   // is already clicked then make it null
   const handleToolBtnClick = (selectedToolCode: string) => {
-    (selectedToolCode === toolcodeState.toolcode) ? setToolcodeState({ toolcode: '' }) : setToolcodeState({ toolcode: selectedToolCode });
+    selectedToolCode === toolcodeState.toolcode
+      ? setToolcodeState({ toolcode: "" })
+      : setToolcodeState({ toolcode: selectedToolCode });
   };
-
-
 
   return (
     <Container>
@@ -70,13 +72,12 @@ export default function SearchPanel() {
       </SearchForm>
       <ViewResult>
         {toolcodeList.map((crnToolCode, index) => (
-
           <ToolBox>
             <ToolBtn
               bgcolor={
                 toolcodeState.toolcode === crnToolCode ? "#00b894" : "#dfe6e9"
               }
-              key={index}
+              key={crnToolCode + "_" + index}
               onClick={() => handleToolBtnClick(crnToolCode)}
             >
               <BasicSpan>{crnToolCode}</BasicSpan>
@@ -84,6 +85,6 @@ export default function SearchPanel() {
           </ToolBox>
         ))}
       </ViewResult>
-    </Container >
+    </Container>
   );
 }
