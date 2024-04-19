@@ -13,7 +13,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin: 30px 30px;
-  width: 90%;
+  width: 90vh;
 `;
 const SearchForm = styled.div`
   width: 30vh;
@@ -22,31 +22,45 @@ const SearchForm = styled.div`
   align-items: flex-start;
 `;
 const BasicSpan = styled.span`
-  font-size: 20px;
+  font-size: 1.5vh;
 `;
 const ViewResult = styled.div`
   display: flex;
   align-items: flex-start;
   /* width: 80vw; */
-  width: 100%;
   overflow-y: auto; /* Add scroll if content exceeds height */
   max-height: 60vh; /* Limit maximum height to 60% of viewport height */
+  overflow-x: hidden;
+  overflow-y: hidden;
 `;
 
 const ToolBox = styled.div`
+  min-width: 100px;
+  min-height: 50px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  align-items: center;
+`;
+
+const ToolList = styled.div`
   width: 100px;
-  height: 50px;
+  height: 100%;
+  padding: 0.5;
+  box-sizing: border-box;
 `;
 
 const ToolBtn = styled.button<{ bgcolor: string }>`
   border-radius: 10px;
   border: 1px solid black;
-  padding: 0px 5px;
-  margin: 10px 0px;
-  margin-right: 10px;
   background-color: ${(props) => props.bgcolor};
   cursor: pointer;
 `;
+
+// https://codepen.io/mahish/pen/RajmQw
+// → 참고로 search panel 만들기555
 
 export default function SearchPanel() {
   const [toolcodeState, setToolcodeState] = useRecoilState(toolcodeValueSate);
@@ -73,15 +87,17 @@ export default function SearchPanel() {
       <ViewResult>
         {toolcodeList.map((crnToolCode, index) => (
           <ToolBox>
-            <ToolBtn
-              bgcolor={
-                toolcodeState.toolcode === crnToolCode ? "#00b894" : "#dfe6e9"
-              }
-              key={crnToolCode + "_" + index}
-              onClick={() => handleToolBtnClick(crnToolCode)}
-            >
-              <BasicSpan>{crnToolCode}</BasicSpan>
-            </ToolBtn>
+            <ToolList>
+              <ToolBtn
+                bgcolor={
+                  toolcodeState.toolcode === crnToolCode ? "#00b894" : "#dfe6e9"
+                }
+                key={crnToolCode + "_" + index}
+                onClick={() => handleToolBtnClick(crnToolCode)}
+              >
+                <BasicSpan>{crnToolCode}</BasicSpan>
+              </ToolBtn>
+            </ToolList>
           </ToolBox>
         ))}
       </ViewResult>
