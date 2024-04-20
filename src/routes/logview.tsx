@@ -1,5 +1,10 @@
 import styled from "styled-components";
 import SearchPanel from "../components/search_panel";
+import { Autocomplete, Button, Drawer, TextField } from "@mui/material";
+import { useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { toolcodeListStartWithSelector, toolcodeValueSate } from "../RecoilState";
+import LogContent from "../components/log_content";
 
 const Container = styled.div`
   height: 100vh;
@@ -25,12 +30,32 @@ const Content = styled(Body)``;
 const Navi = styled(Body)``;
 
 export default function LogView() {
+  const [toolcodeState, setToolcodeState] = useRecoilState(toolcodeValueSate);
+  const toolcodeList = useRecoilValue(
+    toolcodeListStartWithSelector(toolcodeState.toolcode)
+  );
+
+  const [toggleDrawer, setToggleDrawer] = useState(true);
+
+  const selectedValues = (event: React.SyntheticEvent<Element, Event>, value: string | null) => {
+    value === null
+      ? setToolcodeState({ toolcode: "" })
+      : setToolcodeState({ toolcode: value });
+  }
+
   return (
     <Container>
       <Header bgcolor="#dfe6e9">
-        <SearchPanel />
+        <Button onClick={() => setToggleDrawer(!toggleDrawer)}>Open drawer</Button>
       </Header>
-      <Content></Content>
+
+      <Drawer open={toggleDrawer} onClose={() => setToggleDrawer(false)}>
+        <Autocomplete disablePortal id="seach-tool-id" options={toolcodeList} sx={{ width: 300 }} value={toolcodeState.toolcode} onChange={selectedValues} renderInput={(params) => <TextField {...params} label="Tool Id" />} />
+        <Button onClick={() => setToggleDrawer(!toggleDrawer)}>Search</Button>
+      </Drawer>
+      <Content>
+        {toolcodeState.toolcode ? (<LogContent />) : (<h1>Choose Tool Code</h1>)}
+      </Content>
       <Navi></Navi>
     </Container>
   );
