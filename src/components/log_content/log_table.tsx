@@ -1,9 +1,12 @@
 
 import { useRecoilState } from "recoil";
-import { toolcodeValueSate } from "../RecoilState";
 import { Box, Collapse, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import React from "react";
+import { useQuery } from "react-query";
+import { EventLogVo, EventStreamVo } from "../../interface/logview";
+import { fetchDetailLogVo, fetchEqpList, fetchEventStreamList } from "../../Api";
+import { toolcodeValueSate } from "../../RecoilState";
 
 
 
@@ -109,6 +112,17 @@ const rows = [
 ];
 
 export default function LogViewTable({ trcakingKey }: { trcakingKey: string }) {
+
+    const [toolcodeState, setToolcodeState] = useRecoilState(toolcodeValueSate);
+
+
+    const { isLoading: isEventStreamList, data: eventStreamList } = useQuery<EventStreamVo[]>(["eventStreamList", toolcodeState.toolcode], () => fetchEventStreamList(toolcodeState.toolcode), {
+        refetchInterval: 2500
+    });
+    const { isLoading: isLogDataLoading, data: logData } = useQuery<EventLogVo[]>(["logData", toolcodeState.toolcode], () => fetchDetailLogVo(toolcodeState.toolcode))
+
+
+
     return (
         <>
             <h1>log view table, search Key: {trcakingKey}</h1>

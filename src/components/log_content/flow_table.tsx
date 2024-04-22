@@ -20,6 +20,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import { EventStreamVo } from '../../interface/logview';
 
 interface Data {
     id: number;
@@ -254,7 +255,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         </Toolbar>
     );
 }
-export default function FlowViewTable() {
+export default function FlowViewTable({ eventStreamList }: { eventStreamList: EventStreamVo[] }) {
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
     const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -329,6 +330,8 @@ export default function FlowViewTable() {
 
     return (
         <Box sx={{ width: '100%' }}>
+            <h1>Scenario Flow Table</h1>
+            <h1>{JSON.stringify(eventStreamList)}</h1>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <EnhancedTableToolbar numSelected={selected.length} />
                 <TableContainer>
